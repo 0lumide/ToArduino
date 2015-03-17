@@ -1,10 +1,7 @@
 package mide.co.toarduino;
 
 import android.media.AudioTrack;
-import android.util.Log;
-
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 /**
  * Created by Olumide on 3/7/2015.

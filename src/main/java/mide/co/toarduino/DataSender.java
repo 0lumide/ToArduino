@@ -1,13 +1,9 @@
 package mide.co.toarduino;
 
-import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
-import android.widget.Toast;
-
-import java.util.Arrays;
 
 /**
  * Created by Olumide on 3/7/2015.
@@ -18,10 +14,8 @@ public class DataSender extends Thread{
     private short[] clock;
     private AudioTrack audioTrack;
     private int numSamples;
-    Context context;
 
-    public DataSender(Context context){
-        this.context = context;
+    public DataSender(){
         numSamples = (int)(Generator.sampleRate * Generator.period);
         idle = new short[numSamples];
         clock = new short[numSamples];
@@ -78,7 +72,6 @@ public class DataSender extends Thread{
             @Override
             public void onMarkerReached(AudioTrack track) {
                 Log.v("Audio", "marker reached");
-                Toast.makeText(context, "Audio finished", Toast.LENGTH_SHORT).show();
             }
         });
         audioTrack.play();

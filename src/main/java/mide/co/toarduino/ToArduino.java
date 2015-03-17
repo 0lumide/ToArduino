@@ -1,9 +1,5 @@
 package mide.co.toarduino;
 
-import android.content.Context;
-
-import java.util.Arrays;
-
 /**
  * Created by Olumide on 3/7/2015.
  */
@@ -11,11 +7,9 @@ public class ToArduino {
     //The object that plays the sounds
     private DataSender dataSender;
     private Generator generator;
-    Context context;
 
-    public ToArduino(Context context){
-        this.context = context;
-        dataSender = new DataSender(context);
+    public ToArduino(){
+        dataSender = new DataSender();
         dataSender.setName("ToArduino");
         dataSender.start();
     }
