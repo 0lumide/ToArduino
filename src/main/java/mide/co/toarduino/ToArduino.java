@@ -21,13 +21,11 @@ public class ToArduino {
 
     public void sendFloat(float value){
         short[] shortValue = Generator.make(value);
-//        System.out.println(Arrays.toString(shortValue));
         dataSender.send(shortValue);
     }
 
     public void sendDouble(double value){
         short[] shortValue = Generator.make(value);
-//        System.out.println(Arrays.toString(shortValue));
         dataSender.send(shortValue);
     }
 
@@ -38,7 +36,6 @@ public class ToArduino {
 
     public void sendChar(double value){
         short[] shortValue = Generator.make(value);
-//        System.out.println(Arrays.toString(shortValue));
         dataSender.send(shortValue);
     }
 }

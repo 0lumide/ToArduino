@@ -17,35 +17,39 @@ public class Generator {
         int numSamples = (int)(sampleRate * period);
         //8 for the number of bits in a byte
         short[] encoded = new short[(int)(data.length * 8 * numSamples)];
+        int count = 0;
         for (int i = 0; i < data.length; i++) {
             for(int s = 7; s >= 0; s--) {
                 short bit = (short)((data[i] >> s) & 1);
                 for (int j = 0; j < numSamples; j++) {
                     if(bit == 1){
-                        encoded[j] = squarifyUp(j, numSamples);
+                        encoded[count] = squarifyUp(j, numSamples);
                     }
                     else{
-                        encoded[j] = squarifyDown(j, numSamples);
+                        encoded[count] = squarifyDown(j, numSamples);
                     }
+                    count++;
                 }
             }
         }
-        System.out.println("\nGenerator");
-        System.out.println(encoded.length);
         return encoded;
     }
 
     public static short squarifyUp(int sampleNum, int numSamples){
+        //Scale from 0 to 1
         double i = (float)sampleNum/(float)numSamples;
+        //Scale from -1 to 1
+        i = (i - 0.5)*2;
         //visualize generated data here http://www.wolframalpha.com/input/?i=%28-x%5E20+%2B+0.001sin%28200x%29+-+0.001+%2B+1%29+from+-1+to+1
-        return (short)(MAX_SHORT * (-Math.pow(i, 20) + 0.001 * Math.sin(200.0 * i) - 0.001 + 1));
+        return (short)(MAX_SHORT * (-Math.pow(i, 20) + 0.01 * Math.sin(200.0 * i) - 0.01 + 1));
     }
 
     public static short squarifyDown(int sampleNum, int numSamples){
-        //can't use this because of negative voltage
-        //return (short)(-1*squarifyUp(sampleNum, numSamples));
+        //Scale from 0 to 1
         double i = (float)sampleNum/(float)numSamples;
-        return (short)(-Math.sin(200.0 * i) + 0.001);
+        //Scale from -1 to 1
+        i = (i - 0.5)*2;
+        return (short) (MAX_SHORT *((0.01 * Math.sin(200.0 * i) + 0.01)));
     }
 
     public static short[] make(int value){
