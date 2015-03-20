@@ -29,7 +29,7 @@ public class ToArduino {
         dataSender.send(shortValue);
     }
 
-    public void sendString(String value){
+    public void sendString(String value) throws StringTooLargeException{
         short[] shortValue = Generator.make(value);
         dataSender.send(shortValue);
     }

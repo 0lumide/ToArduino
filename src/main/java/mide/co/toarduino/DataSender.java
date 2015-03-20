@@ -1,17 +1,9 @@
 package mide.co.toarduino;
 
-import android.graphics.Path;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
-import android.os.Environment;
 import android.util.Log;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 
 /**
  * Created by Olumide on 3/7/2015.
@@ -70,6 +62,7 @@ public class DataSender extends Thread{
                 AudioTrack.MODE_STATIC);
         audioTrack.write(stereo, 0, stereo.length);
         audioTrack.setNotificationMarkerPosition(stereo.length/8);
+        audioTrack.setLoopPoints(0, stereo.length/8, -1);
 
         audioTrack.setPlaybackPositionUpdateListener(new AudioTrack.OnPlaybackPositionUpdateListener() {
             @Override

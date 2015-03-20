@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
  * header information: A byte letting the arduino know what kind of data
  */
 public class Generator {
-    public static double period = 0.1;
+    public static double period = 0.005;
     public static int sampleRate = AudioTrack.getNativeOutputSampleRate(AudioTrack.MODE_STATIC);
     final static int MAX_SHORT = 32767;
 
@@ -36,20 +36,11 @@ public class Generator {
     }
 
     public static short squarifyUp(int sampleNum, int numSamples){
-        //Scale from 0 to 1
-        double i = (float)sampleNum/(float)numSamples;
-        //Scale from -1 to 1
-        i = (i - 0.5)*2;
-        //visualize generated data here http://www.wolframalpha.com/input/?i=%28-x%5E20+%2B+0.001sin%28200x%29+-+0.001+%2B+1%29+from+-1+to+1
-        return (short)(MAX_SHORT * (-Math.pow(i, 20) + 0.01 * Math.sin(200.0 * i) - 0.01 + 1));
+        return (short)(MAX_SHORT);
     }
 
     public static short squarifyDown(int sampleNum, int numSamples){
-        //Scale from 0 to 1
-        double i = (float)sampleNum/(float)numSamples;
-        //Scale from -1 to 1
-        i = (i - 0.5)*2;
-        return (short) (MAX_SHORT *((0.01 * Math.sin(200.0 * i) + 0.01)));
+        return (short)-(MAX_SHORT);
     }
 
     public static short[] make(int value){
@@ -67,9 +58,15 @@ public class Generator {
         return encode(withHeader);
     }
 
-    public static short[] make(String value){
-        int size = 1 + (value.length() * 2);
-        ByteBuffer header = ByteBuffer.allocate(size).put((byte)'S');
+    public static short[] make(String value) throws StringTooLargeException{
+        if (value.length() > 255){
+            String message = String.format("String to be sent is %d characters greater than the 255 limit", (value.length() - 255));
+            //Throw too large string exception
+            throw new StringTooLargeException(message);
+        }
+        //1 for data type 1 for string length, hence max 256 then two per char
+        int size = 2 + (value.length() * 2);
+        ByteBuffer header = ByteBuffer.allocate(size).put((byte)value.length()).put((byte)'S');
         for(int i = 0; i < value.length(); i++){
             header.putChar(value.charAt(i));
         }
