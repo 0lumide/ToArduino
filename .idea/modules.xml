@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ToArduino.iml" filepath="$PROJECT_DIR$/.idea/ToArduino.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ToArduino.iml" filepath="$PROJECT_DIR$/ToArduino.iml" />
     </modules>
   </component>
 </project>
-
